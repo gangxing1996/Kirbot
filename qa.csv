@@ -1,0 +1,8 @@
+qustion,answer,author,eval,possibility
+kirby,妈妈,kangkang,,
+ping,pong,,,
+台币,,,"""银联人民币对新台币汇率：""+ get_curr()",
+孩子,孩子,,,
+haizi,haizi,,,
+son,son,,,
+poyo,Poyo~,,,
