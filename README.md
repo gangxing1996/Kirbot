@@ -1,5 +1,5 @@
 # Kirbot
-A discord bot developed with discord.py.
+A Kirby-style discord bot developed with discord.py.
 
 ---
 

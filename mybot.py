@@ -46,5 +46,3 @@ class MyBot(commands.Bot):
 
 if __name__=="__main__":
     pass
-    
-    
