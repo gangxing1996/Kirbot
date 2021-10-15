@@ -18,7 +18,8 @@ if __name__ == '__main__':
     # async def ping(ctx):
     #     await ctx.send(f"{int(bot.latency*1000)}(ms)")
 
-    bot.load_extension("cmds.basis")
+    bot.load_extension("cmds.Basis")
+    bot.load_extension("cmds.Pic")
     @bot.listen('on_message')
     async def incomming_message(message):
         # don't respond to ourselves
@@ -34,12 +35,12 @@ if __name__ == '__main__':
             await message.channel.send('孩子')
         if message.content == 'son':
             await message.channel.send('son')
-        if message.content.startswith("."):
-            if message.content[1:] in bot.pic_names:
-                # print(os.path.join(bot.pic_dir,bot.pic_fullnames[bot.pic_names.index(message.content[1:])]))
-                f=os.path.join(bot.pic_dir,bot.pic_fullnames[bot.pic_names.index(message.content[1:])])
-                pic=discord.File(f)
-                await message.channel.send(file=pic)
+        # if message.content.startswith("."):
+        #     if message.content[1:] in bot.pic_names:
+        #         # print(os.path.join(bot.pic_dir,bot.pic_fullnames[bot.pic_names.index(message.content[1:])]))
+        #         f=os.path.join(bot.pic_dir,bot.pic_fullnames[bot.pic_names.index(message.content[1:])])
+        #         pic=discord.File(f)
+        #         await message.channel.send(file=pic)
 
         if bool(re.search("poyo",message.content,re.IGNORECASE)):
             await message.channel.send(util.poyo())
@@ -48,7 +49,14 @@ if __name__ == '__main__':
         if bool(re.search("pa",message.content,re.IGNORECASE)):
             await r_pa(message)
 
-        print("received a message from ",message.author.name,message.author.discriminator,message.author.id,message.author.avatar,"\n")
-
+        print(f"A message from : {message.author.name}#{message.author.discriminator} id : {message.author.id}")
+        print(f"Channel name: {message.channel.name}Channel ID: {message.channel.id}" if hasattr(message.channel,'name') else "Dirct Message")
+        print(f"Content : {message.content}")
+        print(f"Attachment type : {message.attachments[0].content_type}\n" if message.attachments else "No Attachment\n")
+        # await message.attachments[0].save("./kirby.gif")
+    
     bot.run(jdata["token"])
+    # game=discord.Game("卡比与gangxing的大冒险")
+    # bot.change_presence(status=discord.Status.idle, activity=game)
+    
     

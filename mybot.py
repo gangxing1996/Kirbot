@@ -7,12 +7,12 @@ import os
 class MyBot(commands.Bot):
     def __init__(self,**kwargs):
         super().__init__(command_prefix=kwargs["command_prefix"])
-        self.pic_dir="./pic"
-        self.pic_fullnames=os.listdir(self.pic_dir)
-        self.pic_names=[name.split(".")[0] for name in self.pic_fullnames]
+        # self.pic_dir="./pic"
+        # self.pic_fullnames=os.listdir(self.pic_dir)
+        # self.pic_names=[name.split(".")[0] for name in self.pic_fullnames]
 
     async def on_ready(self):
-        print('Logged on as', self.user)
+        print('Logged on as', self.user,"\n")
 
     # async def on_message(self, message):
     #     # don't respond to ourselves
