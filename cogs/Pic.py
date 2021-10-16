@@ -50,7 +50,7 @@ class Pic(commands.Cog):
             del self.bot.pic.new_pic[index]
             del self.bot.pic.new_author[index]
             del self.bot.pic.new_hash[index]
-            await ctx.send("up_pic time out")
+            await ctx.send(f"{ctx.author.mention}up_pic time out")
         except:
             pass
 

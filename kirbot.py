@@ -9,6 +9,9 @@ import os
 import util
 if __name__ == '__main__':
 
+
+
+
     with open('config.json','r',encoding='utf8') as jfile:
         jdata=json.load(jfile)
     bot = MyBot(command_prefix=jdata["command_prefix"])
@@ -18,8 +21,14 @@ if __name__ == '__main__':
     # async def ping(ctx):
     #     await ctx.send(f"{int(bot.latency*1000)}(ms)")
 
-    bot.load_extension("cmds.Basis")
-    bot.load_extension("cmds.Pic")
+    # bot.load_extension("cmds.Basis")
+    # bot.load_extension("cmds.Pic")
+    cog_dir=jdata["cog_dir"]
+    cogs=jdata["cogs"]
+    for cog in cogs:
+        bot.load_extension(cog_dir+"."+cog)
+
+
     @bot.listen('on_message')
     async def incomming_message(message):
         # don't respond to ourselves
