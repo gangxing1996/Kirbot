@@ -1,3 +1,4 @@
+from selectors import EpollSelector
 from discord.ext import commands
 import discord
 import os
@@ -10,7 +11,7 @@ class Pic(commands.Cog):
         class Pic_data():
             def __init__(self) -> None:
                 self.dir="./pic"
-                self.fullnames=os.listdir(self.dir)
+                self.fullnames=sorted(os.listdir(self.dir))
                 self.names=[name.split(".")[0] for name in self.fullnames]
                 self.new_pic=[]
                 self.new_author=[]
@@ -53,6 +54,22 @@ class Pic(commands.Cog):
             await ctx.send(f"{ctx.author.mention}up_pic time out")
         except:
             pass
+    @commands.command()
+    async def delpic(self,ctx,*args):
+        if len(args)==0:
+            await ctx.send('输入表情名称, eg  "/delpic kirby" ')
+            return
+        else:
+            name=args[0]
+        
+        if name in self.bot.pic.names:
+            index=self.bot.pic.names.index(name)
+            os.remove(os.path.join(self.bot.pic.dir,self.bot.pic.fullnames[index]))
+            del self.bot.pic.names[index]
+            del self.bot.pic.fullnames[index]
+            await ctx.send(f"{ctx.author.mention} sticker {name} has been deleted.")
+        else:
+            await ctx.send(f"{ctx.author.mention} sticker {name} is NOT existed.")
 
     @commands.Cog.listener('on_message')
     async def save_pic(self,message):
@@ -66,8 +83,21 @@ class Pic(commands.Cog):
                 del self.bot.pic.new_author[index]
                 del self.bot.pic.new_hash[index]
                 await message.attachments[0].save(os.path.join(self.bot.pic.dir,name+'.'+message.attachments[0].content_type.split("/")[1]))
-                self.bot.pic.names.append(name)
-                self.bot.pic.fullnames.append(name+"."+message.attachments[0].content_type.split("/")[1])
+                if (name in self.bot.pic.names) :
+                    if ((name+'.'+message.attachments[0].content_type.split("/")[1]) in self.bot.pic.fullnames):
+                        # 新图片的name和type和之前相同，直接覆盖图片文件就可以了
+                        pass
+                    else:
+                        # 新图片的name和之前相同，type不同
+                        # 删一下之前的图片，之后要修改一下fullname
+                        index=self.bot.pic.names.index(name)
+                        os.remove(os.path.join(self.bot.pic.dir,self.bot.pic.fullnames[index]))
+                        self.bot.pic.fullnames[index]=(name+"."+message.attachments[0].content_type.split("/")[1])
+                 
+                else:
+                    # 全新图片name 就把 name和fullname都存一下
+                    self.bot.pic.names.append(name)
+                    self.bot.pic.fullnames.append(name+"."+message.attachments[0].content_type.split("/")[1])
                 print("uploaded picture")
                 await message.channel.send(f"{message.author.mention} 上传成功:{name}")
             except:

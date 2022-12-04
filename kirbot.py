@@ -2,7 +2,7 @@ from discord.ext.commands.core import command
 from discord.ext import commands
 from mybot import MyBot
 import json
-from worm import get_curr
+from worm import get_curr, get_jjv
 import re
 import discord
 import os 
@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
     # bot.load_extension("cmds.Basis")
     # bot.load_extension("cmds.Pic")
+
     cog_dir=jdata["cog_dir"]
     cogs=jdata["cogs"]
     for cog in cogs:
@@ -38,8 +39,12 @@ if __name__ == '__main__':
              await message.channel.send("妈妈")
         if message.content == 'ping':
             await message.channel.send('pong')
+        # if message.content == 'jjv':
+        #     await message.channel.send("景嘉微股价："+ get_jjv())
         if message.content == '台币':
-            await message.channel.send("银联人民币对新台币汇率："+ get_curr())
+            await message.channel.send("银联人民币对新台币汇率："+ get_curr('台币'))
+        if message.content == '日元':
+            await message.channel.send("银联人民币对日元汇率："+ get_curr('日元'))
         if message.content == '孩子' or message.content =='haizi':
             await message.channel.send('孩子')
         if message.content == 'son':
